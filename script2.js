@@ -94,7 +94,7 @@ const startDrawing = (e) => {
     const pos = getPos(e);
     ctx.beginPath();
     ctx.moveTo(pos.x, pos.y);
-    ctx.lineWidth = window.innerWidth * 0.02; 
+    ctx.lineWidth = window.innerWidth * 0.01; 
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
 };
