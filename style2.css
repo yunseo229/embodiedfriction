@@ -17,6 +17,7 @@ body {
     
     #clear-image,
     #blur-image,
+    #rain-blur-image,
     #mask-canvas {
     position: absolute;
     top: 0;
@@ -34,7 +35,8 @@ body {
     z-index: 3;
     }
     
-    #blur-image {
+    #blur-image,
+    #rain-blur-image {
     z-index: 2;
     opacity: 0;
     }
