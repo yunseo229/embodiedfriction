@@ -20,8 +20,8 @@ body, html {
     height: 65vw;
     z-index: 25;
     cursor: grab; 
-    backdrop-filter: blur(9px);
-    -webkit-backdrop-filter: blur(9px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     mask-image: url('phone-mask.png');
     -webkit-mask-image: url('phone-mask.png');
     mask-size: contain;
