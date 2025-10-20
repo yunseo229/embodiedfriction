@@ -1,23 +1,20 @@
-// --- 1. 공통 요소 가져오기 ---
 const canvas = document.getElementById('mask-canvas');
 const ctx = canvas.getContext('2d');
 const container = document.getElementById('scratch-container');
 const blurImage = document.getElementById('blur-image');
 
-// --- 2. 각 인터랙션별 요소 가져오기 ---
+
 const wiperLeft = document.getElementById('wiper-left');
 const wiperRight = document.getElementById('wiper-right');
 const fingerCursor = document.getElementById('finger-cursor');
 const toolABtn = document.getElementById('tool-a-btn');
 const toolBBtn = document.getElementById('tool-b-btn');
 
-// --- 3. 상태 관리 및 설정 변수 ---
-let currentMode = null; // 현재 활성화된 모드 ( 'wiper' 또는 'scratch' )
+
+let currentMode = null; 
 let wiperAnimationId = null;
 
-// =======================================================
-// 🎨 캔버스 초기화 (공통 함수)
-// =======================================================
+
 function initializeCanvas() {
     canvas.width = container.offsetWidth;
     canvas.height = container.offsetHeight;
