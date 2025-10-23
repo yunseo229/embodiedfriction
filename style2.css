@@ -75,42 +75,50 @@ body {
     }
 
     #finger-cursor {
-         position: absolute;
-        width: 10vw;
+        position: absolute;
+        width: 30vw;
         pointer-events: none;
         z-index: 999;
-        transform: translate(-50%, -10%);
+        transform: translate(-40%, -7%);
         }
 
 
-        #tool-selector {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 5px;
-            border-radius: 10px;
-            display: flex;
-            gap: 10px;
-        }
-        .tool-btn {
-            width: 40px;
-            height: 40px;
-            border: 2px solid white;
-            background: transparent;
-            color: white;
-            font-size: 1.2rem;
-            font-weight: bold;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.2s, color 0.2s;
-        }
-        .tool-btn:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        .tool-btn.active {
-            background-color: white;
-            color: black;
-        }
+#tool-selector {
+    position: fixed;
+    top: 40%;
+    left: 85%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    gap: 10px;
+}
+
+.tool-btn {
+    width: 5vw; 
+    padding: 0; 
+    border: none; 
+    background: none;
+    cursor: pointer;
+    overflow:cover; 
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    animation: blink-animation 1.5s infinite; 
+}
+
+@keyframes blink-animation {
+    0% { opacity: 1; }  
+    50% { opacity: 0.3; } 
+    100% { opacity: 1; } 
+
+}
+
+.tool-btn img {
+    width: 7vw; 
+    object-fit: contain; 
+    display: block;
+}
+
+.tool-btn img:hover {
+ scale: 1.65;
+}
