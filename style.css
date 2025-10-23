@@ -12,16 +12,17 @@ body, html {
     display: block;
 }
 
+
 #phone-container {
     position: fixed;
-    bottom: -20vh;
-    left: 0vw;
+    bottom: -12vh;
+    left: -7vw; 
     width: 65vw;
     height: 65vw;
     z-index: 25;
     cursor: grab; 
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     mask-image: url('phone-mask.png');
     -webkit-mask-image: url('phone-mask.png');
     mask-size: contain;
@@ -31,7 +32,6 @@ body, html {
     mask-position: center bottom;
     -webkit-mask-position: center bottom;
 }
-
 
 #phone-container::before {
     content: '';
@@ -58,21 +58,17 @@ body, html {
 #mac-container {
     position: fixed;
     top: 50%;
-    right: 0; 
+    right: 7%; 
     width: 80vw; 
     height: auto;
-    
-
     transform: translate(100%, -50%);
-  
     transition: transform 0.5s ease-in-out;
-    
     z-index: 20; 
 }
 
 
 #mac-container.is-visible {
-    transform: translate(-6%, -50%);
+    transform: translate(10%, -50%);
 }
 
 #mac-image {
@@ -84,12 +80,21 @@ body, html {
 #letter-container {
     position: fixed; 
     top: 50vh;
-    left: 50%;
+    left: 48%;
     transform: translate(-50%, -50%); 
     z-index: 10; 
 }
 
 .letter-image {
-    width: 40vw; 
+    width: 30vw; 
     height: auto;
+}
+
+@media (max-width: 768px) {
+    #phone-container {
+        width: 85vw;
+        height: 130vw; 
+        left: 7.5vw;
+        bottom: 10vw;
+    }
 }
