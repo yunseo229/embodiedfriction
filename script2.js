@@ -6,8 +6,7 @@ const rainBlurImage = document.getElementById('rain-blur-image');
 const wiperLeft = document.getElementById('wiper-left');
 const wiperRight = document.getElementById('wiper-right');
 const fingerCursor = document.getElementById('finger-cursor');
-const toolABtn = document.getElementById('tool-a-btn');
-
+const toolABtn = document.getElementById('tool-a-btn'); 
 let currentMode = null;
 let wiperAnimationId = null;
 
@@ -24,7 +23,7 @@ stampImage.onload = () => {
     const imageData = wiperStampCtx.getImageData(0, 0, wiperStampCanvas.width, wiperStampCanvas.height);
     const data = imageData.data;
     for (let i = 0; i < data.length; i += 4) {
-        if (data[i + 3] > 10) {
+        if (data[i + 3] > 10) { 
             data[i + 3] = 255;
         }
     }
@@ -37,10 +36,6 @@ stampImage.onerror = () => {
     checkAllImagesLoaded(); 
 };
 
-
-// =======================================================
-// 🎨 캔버스 초기화 (어떤 이미지를 그릴지 인자로 받음)
-// =======================================================
 function initializeCanvas(sourceImage) {
     canvas.width = container.offsetWidth;
     canvas.height = container.offsetHeight;
@@ -63,14 +58,13 @@ function initializeCanvas(sourceImage) {
 }
 
 // =======================================================
-// A: 와이퍼 인터랙션 관련 코드 (✅ 속도, 투명도 조절)
+// A: 와이퍼 인터랙션 관련 코드
 // =======================================================
 let angle = -60;
 let lastAngle = angle;
 const minAngle = -100, maxAngle = 100;
 let direction = 1;
-
-const speed = 1.5; 
+const speed = 1.5; // 속도 1.5
 
 function wiperLoop() {
     lastAngle = angle;
@@ -95,7 +89,7 @@ function wiperLoop() {
 
     const startAngle = Math.min(lastAngle, angle);
     const endAngle = Math.max(lastAngle, angle);
-    const step = 0.5; 
+    const step = 0.5;
 
     for (let a = startAngle; a <= endAngle; a += step) {
         const angleRad = a * (Math.PI / 180);
@@ -119,42 +113,57 @@ function wiperLoop() {
 }
 
 // =======================================================
-// B: 손가락 긁기 인터랙션 관련 코드 (변경 없음)
+// B: 손가락 긁기 인터랙션 관련 코드
 // =======================================================
 let isDrawing = false;
 const getPos = (e) => ({ x: e.clientX - canvas.getBoundingClientRect().left, y: e.clientY - canvas.getBoundingClientRect().top });
+
 const startDrawing = (e) => {
     isDrawing = true;
-    const pos = getPos(e);
+    const event = e.touches ? e.touches[0] : e;
+    const pos = getPos(event);
     ctx.beginPath(); ctx.moveTo(pos.x, pos.y);
     ctx.lineWidth = window.innerWidth * 0.03;
     ctx.lineCap = 'round'; ctx.lineJoin = 'round';
 };
+
 const draw = (e) => {
-    fingerCursor.style.left = `${e.clientX}px`;
-    fingerCursor.style.top = `${e.clientY}px`;
+    if (e.touches) e.preventDefault();
+    const event = e.touches ? e.touches[0] : e;
+    requestAnimationFrame(() => { 
+        fingerCursor.style.left = `${event.clientX}px`;
+        fingerCursor.style.top = `${event.clientY}px`;
+    });
     if (!isDrawing) return;
-    const pos = getPos(e);
+    const pos = getPos(event);
     ctx.lineTo(pos.x, pos.y);
     ctx.stroke();
 };
+
 const stopDrawing = () => isDrawing = false;
+
 function addScratchListeners() {
     canvas.addEventListener('mousedown', startDrawing);
     canvas.addEventListener('mousemove', draw);
     canvas.addEventListener('mouseup', stopDrawing);
     canvas.addEventListener('mouseleave', stopDrawing);
+    canvas.addEventListener('touchstart', startDrawing, { passive: false });
+    canvas.addEventListener('touchmove', draw, { passive: false });
+    canvas.addEventListener('touchend', stopDrawing);
+    canvas.addEventListener('touchcancel', stopDrawing);
 }
+
 function removeScratchListeners() {
     canvas.removeEventListener('mousedown', startDrawing);
     canvas.removeEventListener('mousemove', draw);
-    canvas.addEventListener('mouseup', stopDrawing);
-    canvas.addEventListener('mouseleave', stopDrawing);
+    canvas.removeEventListener('mouseup', stopDrawing);
+    canvas.removeEventListener('mouseleave', stopDrawing);
+    canvas.removeEventListener('touchstart', startDrawing);
+    canvas.removeEventListener('touchmove', draw);
+    canvas.removeEventListener('touchend', stopDrawing);
+    canvas.removeEventListener('touchcancel', stopDrawing);
 }
 
-// =======================================================
-// ⚙️ 모드 제어 (✅ B 버튼 관련 코드 삭제)
-// =======================================================
 function setMode(newMode) {
     if (currentMode === newMode) return;
     if (currentMode === 'wiper') { cancelAnimationFrame(wiperAnimationId); }
@@ -163,29 +172,25 @@ function setMode(newMode) {
     wiperLeft.style.display = 'none';
     wiperRight.style.display = 'none';
     fingerCursor.style.display = 'none';
-    document.body.style.cursor = 'default';
+    document.body.classList.remove('scratch-mode-active'); 
 
     currentMode = newMode;
-    if (currentMode === 'wiper') {
+    if (currentMode === 'wiper') { 
         initializeCanvas(rainBlurImage);
         wiperLeft.style.display = 'block';
         wiperRight.style.display = 'block';
         toolABtn.classList.add('active'); 
-        lastAngle = -60; 
-        angle = -60;
+        lastAngle = -60; angle = -60;
         wiperLoop();
-    } else if (currentMode === 'scratch') {
+    } else if (currentMode === 'scratch') { 
         initializeCanvas(blurImage);
         fingerCursor.style.display = 'block';
-        document.body.style.cursor = 'none';
+        document.body.classList.add('scratch-mode-active'); 
         toolABtn.classList.remove('active'); 
         addScratchListeners();
     }
 }
 
-// =======================================================
-// 🚀 초기 실행 및 이벤트 리스너 (✅ 토글 로직으로 변경)
-// =======================================================
 let imagesLoadedCount = 0;
 const imagesToLoad = [blurImage, rainBlurImage];
 const totalImagesToLoad = imagesToLoad.length;
@@ -202,6 +207,8 @@ window.addEventListener('load', () => {
         else { img.onload = () => { imagesLoadedCount++; checkAllImagesLoaded(); }; img.onerror = () => { imagesLoadedCount++; checkAllImagesLoaded(); }; }
     });
     checkAllImagesLoaded();
+
+    resetTimer();
 });
 
 window.addEventListener('resize', () => {
@@ -218,22 +225,11 @@ let inactivityTimer;
 function resetTimer() {
     clearTimeout(inactivityTimer);
     inactivityTimer = setTimeout(() => {
-        window.location.href = 'index.html';
+        if (window.location.href.includes('page2.html')) {
+           window.location.href = 'index.html';
+        }
     }, 20000); 
 }
-
-window.addEventListener('load', () => {
-    const scrollAmount = window.innerHeight * 0.40; 
-    window.scrollTo({
-        top: scrollAmount,
-        left: 0,
-        behavior: 'auto'
-    });
-
- 
-    resetTimer();
-});
-
 
 document.addEventListener('mousemove', resetTimer);
 document.addEventListener('keydown', resetTimer);
