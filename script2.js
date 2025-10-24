@@ -228,7 +228,7 @@ function resetTimer() {
         if (window.location.href.includes('page2.html')) {
            window.location.href = 'index.html';
         }
-    }, 20000); 
+    }, 15000); 
 }
 
 document.addEventListener('mousemove', resetTimer);
