@@ -90,7 +90,14 @@ body, html {
     height: auto;
 }
 
-
+@media (max-width: 768px) {
+    #phone-container {
+        width: 85vw;
+        height: 130vw; 
+        left: 7.5vw;
+        bottom: 10vw;
+    }
+}
 #mobile-vhs-overlay {
     display: none;
   }
@@ -119,11 +126,3 @@ body, html {
       overflow: hidden;
     }
   }
-@media (max-width: 768px) {
-    #phone-container {
-        width: 85vw;
-        height: 130vw; 
-        left: 7.5vw;
-        bottom: 10vw;
-    }
-}
