@@ -90,6 +90,35 @@ body, html {
     height: auto;
 }
 
+
+#mobile-vhs-overlay {
+    display: none;
+  }
+  
+ 
+  @media (max-width: 768px) {
+    
+  
+    #mobile-vhs-overlay {
+      display: block; 
+      position: fixed; 
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh; 
+      
+      background-image: url('VHS.png');
+      background-size: cover; 
+      background-position: center; 
+      background-repeat: no-repeat;
+  
+      z-index: 9999;
+    }
+
+    body {
+      overflow: hidden;
+    }
+  }
 @media (max-width: 768px) {
     #phone-container {
         width: 85vw;
